@@ -1,9 +1,13 @@
 version: "3"
 
+# The only IPs that should be environment specific are defined in the
+# dnsmasq_svc service and the host `/etc/resolv.conf`.
+
 # dnsmasq_svc - host networking on port 0.0.0.0:53
 # caddy_svc - host networking on ports 0.0.0.0:80, 0.0.0.0:443, 127.0.0.1:2019
 # vaultwarden_svc - 127.0.0.1:1080:80, 127.0.0.1:3012:3012
-#gitea_svc - 127.0.0.1:1180:3000, 22:22
+# gitea_svc - 127.0.0.1:1180:3000, 22:22
+
 services:
   dnsmasq_svc:
     image: git.lab/lab/dnsmasq:initial
@@ -126,7 +130,6 @@ services:
     environment:
       - CONFIG_FILE=/data/config.yaml
       - DOCKER_HOST=unix:///var/run/user/1000/docker.sock
-      #- GITEA_INSTANCE_URL=http://192.168.1.73:3000/
     volumes:
       - /opt/state/gitea_sys_runner/data:/data
     restart: unless-stopped

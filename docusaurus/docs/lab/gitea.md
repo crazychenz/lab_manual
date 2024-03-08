@@ -1,3 +1,12 @@
+## Contents
+
+- Preparing The System
+- Installing Gitea Service (with docker compose)
+- Create the admin organization (lab) and first repo (system_manual)
+- Install and configure a Gitea Runner
+- Mirror and install the checkout Action
+- Initialize system_manual project and add an action workflow.
+
 ## System Adjustments
 
 - Reconfigure SSHd to use a different port (e.g. 2222) in `/etc/ssh/sshd_config`.
@@ -142,6 +151,16 @@ git push --mirror origin
 ```
 
 ## Setup Project Actions
+
+- To enable actions for a repository, open the project in the Gitea Web GUI. 
+- Go to the project Settings (roughly under the Fork button in the upper right).
+- Under the "Advanced Settings" section, check the "Actions" checkbox.
+- Click "Update Settings" at the bottom of the section.
+- If successful, you'll now see an "Action" link in the top bar of the project between "Pull Requests" and "Packages".
+- Click "Actions" to see past and/or present Action workflows and logs.
+
+Once we setup a project to execute a workflow on an event, you can come to this page to see, in the browser, the action terminal output as its running.
+
 
 Here is an example Gitea Action that you can put in `.gitea/workflows/deploy.yml` of a project folder.
 

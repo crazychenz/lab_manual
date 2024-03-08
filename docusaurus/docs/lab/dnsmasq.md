@@ -2,15 +2,15 @@ Nearly everything that has to do with web services requires DNS entries. For exa
 
 There are a few different DNS servers worth considering for a small-scale network. CoreDNS, bind, and dnsmasq to name a few. For my purposes, dnsmasq remains the best choice because of its built in DHCP and TFTP functionality. Combining DHCP, TFTP, and DNS affords you the ability to setup PXE boot on your network, enabling auto-provisioning of systems as they are connected and boot from the network. That said, for now we'll only focus on DNS in our "initial" environment.
 
-For our initial environment, we're going to cheat a bit with the configuration of dnsmask. For starters, we'll configure the dns entries directly within our `docker-compose.yml` file for dnsmasq. This is possible because Docker mandates control over the `/etc/hosts` file via `--add-host` arguments and dnsmasq includes `/etc/hosts` in its resolver. Secondly, we're going to use the host network stack with starting up dnsmask. There is a lot of complexity with hosting a service for nodes on an external network from one docker container to another that aren't within the same docker network. We can eliminate alot of that complexity by hosting our DNS server in the host network stack and then adding a `--dns=` argument to all of our subsequent services.
+For our initial environment, we're going to cheat a bit with the configuration of dnsmasq. For starters, we'll configure the dns entries directly within our `docker-compose.yml` file for dnsmasq. This is possible because Docker mandates control over the `/etc/hosts` file via `--add-host` arguments and dnsmasq includes `/etc/hosts` in its resolver. Secondly, we're going to use the host network stack when starting up dnsmasq. There is a lot of complexity with hosting a service for nodes on an external network from one docker container to another that aren't within the same docker network. We can eliminate alot of that complexity by hosting our DNS server in the host network. By default, most docker containers will use the host's DNS configuration (found in /etc/resolv.conf). If we need to be more explicit, we can always add a `--dns=` argument to the relevant services.
 
-Before we create our dnsmask container, there are 2 pre-requisites in a Debian/Ubuntu environment:
+Before we create our dnsmasq container, there are 2 pre-requisites in a Debian/Ubuntu environment:
 
 - Set the nameserver in `/etc/resolv.conf` to something external (e.g. 9.9.9.9).
 - Disable systemd-resolved DNS cache running on 127.0.0.1:53.
   `sudo su -c "systemctl stop systemd-resolved && systemctl disable systemd-resolved"`
 
-Replace any /etc/resolve with our new nameserver. (You'll need to do this on all network devices.)
+Replace any `/etc/resolv.conf` with our new nameserver. (You'll need to do this on all network devices.)
 `sudo su -c 'rm /etc/resolv.conf && echo -e "nameserver 127.0.0.1\nsearch lab\n" > /etc/resolv.conf'`
 
 Our initial dnsmasq docker-compose.yml file:
