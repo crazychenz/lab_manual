@@ -1,0 +1,34 @@
+https://words.lab {
+  tls internal
+  
+  reverse_proxy http://127.0.0.1:1080 {
+    header_up Host {host}
+    header_up X-Real-IP {remote}
+  }
+}
+
+https://git.lab {
+  tls internal
+  
+  reverse_proxy http://127.0.0.1:1180 {
+    header_up Host {host}
+    header_up X-Real-IP {remote}
+  }
+}
+
+https://www.lab {
+  tls internal
+  
+  reverse_proxy http://127.0.0.1:1280 {
+    header_up Host {host}
+    header_up X-Real-IP {remote}
+  }
+}
+
+https://tls.lab {
+  tls internal
+  
+  root * /public
+  file_server browse
+}
+

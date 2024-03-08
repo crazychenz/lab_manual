@@ -1,0 +1,20 @@
+name: manuals
+run-name: ${{ gitea.actor }} is building lab/manuals image.
+
+on:
+  push: 
+    branches: [deploy]
+
+jobs:
+  build-oci:
+    runs-on: [system]
+    steps:
+
+    - name: Check out repository code
+      uses: https://git.lab/actions/checkout@594274c467e5d08236d89c46ee2df636a799cbce
+
+    - name: Dump environment variables
+      run: env
+
+    - name: Build systems image
+      run: ./do cicd

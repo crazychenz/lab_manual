@@ -1,0 +1,136 @@
+version: "3"
+
+# dnsmasq_svc - host networking on port 0.0.0.0:53
+# caddy_svc - host networking on ports 0.0.0.0:80, 0.0.0.0:443, 127.0.0.1:2019
+# vaultwarden_svc - 127.0.0.1:1080:80, 127.0.0.1:3012:3012
+#gitea_svc - 127.0.0.1:1180:3000, 22:22
+services:
+  dnsmasq_svc:
+    image: git.lab/lab/dnsmasq:initial
+    depends_on: []
+    container_name: dnsmasq_svc
+    build:
+      context: context
+      dockerfile_inline: |
+        FROM alpine:3.19
+        RUN apk add -U dnsmasq
+    restart: unless-stopped
+    network_mode: host
+    dns:
+    - 9.9.9.9
+    - 1.1.1.1
+    dns_search: lab
+    extra_hosts:
+    - dockerhost:host-gateway
+    - git.lab:192.168.1.73
+    - words.lab:192.168.1.73
+    - dns.lab:192.168.1.73
+    - www.lab:192.168.1.73
+    - tls.lab:192.168.1.73
+    entrypoint: ["/usr/sbin/dnsmasq", "--no-daemon"]
+
+  caddy_svc:
+    image: git.lab/lab/caddy:initial
+    depends_on: [dnsmasq_svc]
+    container_name: caddy_svc
+    build: 
+      context: context
+      dockerfile_inline: |
+        FROM caddy:alpine
+        
+        COPY Caddyfile /etc/caddy/Caddyfile
+        
+        # Execute Caddy's PKI application to create certificates.
+        COPY <<EOF /tmp/init-pki.sh
+        # Start the server
+        caddy run &
+        TMP_CADDY_PID=\$!
+        # Wait for server to start
+        sleep 1
+        # Tell caddy to gen certs (and install them).
+        caddy trust
+        # Wait for server to create certificates
+        sleep 1
+        # Kill server
+        kill \$\{TMP_CADDY_PID\}
+        # Copy public certs to hosted folder 
+        mkdir -p /public/certs
+        cp /data/caddy/pki/authorities/local/*.crt /public/certs/
+        EOF
+        # Set execute perm, execute, and remove the initialize PKI script.
+        RUN chmod +x /tmp/init-pki.sh && /tmp/init-pki.sh && rm /tmp/init-pki.sh
+        
+        # Build the container entrypoint
+        COPY <<EOF /start-caddy.sh
+        #!/bin/sh
+        caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
+        EOF
+        RUN chmod +x /start-caddy.sh
+        CMD ["/start-caddy.sh"]
+
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - /opt/state/caddy_svc/config:/config
+      #- /opt/state/caddy_svc/data:/data
+
+  vaultwarden_svc:
+    image: vaultwarden/server:latest
+    depends_on: [dnsmasq_svc, caddy_svc]
+    container_name: vaultwarden_svc
+    restart: unless-stopped
+    environment:
+      DOMAIN: "https://words.lab"
+    ports: [127.0.0.1:1080:80, 127.0.0.1:3012:3012]
+    volumes:
+      - /opt/state/vaultwarden_svc/data:/data
+
+  gitea_svc:
+    image: gitea/gitea:1.21.4
+    depends_on: [dnsmasq_svc, caddy_svc]
+    container_name: gitea_svc
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+    restart: unless-stopped
+    volumes:
+      - /opt/state/gitea_svc/data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports: [ 127.0.0.1:1180:3000, "22:22" ]
+
+  gitea_sys_runner:
+    image: git.lab/lab/act_runner:latest
+    depends_on: [dnsmasq_svc, caddy_svc, gitea_svc]
+    build:
+      context: context
+      dockerfile_inline: |
+        FROM gitea/act_runner:latest-dind-rootless
+        USER root
+        RUN wget --no-check-certificate https://tls.lab/certs/root.crt \
+          -O /usr/local/share/ca-certificates/lab-root.crt \
+          && wget --no-check-certificate https://tls.lab/certs/intermediate.crt \
+          -O /usr/local/share/ca-certificates/lab-intermediate.crt \
+          && ln -s /usr/local/share/ca-certificates/lab-root.crt \
+            /etc/ssl/certs/lab-root.crt \
+          && ln -s /usr/local/share/ca-certificates/lab-intermediate.crt \
+            /etc/ssl/certs/lab-intermediate.crt \
+          && cat /usr/local/share/ca-certificates/lab-root.crt \
+          >> /etc/ssl/certs/ca-certificates.crt \
+          && cat /usr/local/share/ca-certificates/lab-intermediate.crt \
+          >> /etc/ssl/certs/ca-certificates.crt
+        USER rootless
+    container_name: gitea_sys_runner
+    # Required for docker in docker control.
+    privileged: true
+    environment:
+      - CONFIG_FILE=/data/config.yaml
+      - DOCKER_HOST=unix:///var/run/user/1000/docker.sock
+      #- GITEA_INSTANCE_URL=http://192.168.1.73:3000/
+    volumes:
+      - /opt/state/gitea_sys_runner/data:/data
+    restart: unless-stopped
+
+networks:
+  gitea:
+    external: false
