@@ -5,7 +5,8 @@
 - Create the admin organization (lab) and first repo (system_manual)
 - Install and configure a Gitea Runner
 - Mirror and install the checkout Action
-- Initialize system_manual project and add an action workflow.
+- TODO: Initialize system_manual project and add an action workflow.
+- TODO: Push a resulting image into gitea docker repository.
 
 ## System Adjustments
 

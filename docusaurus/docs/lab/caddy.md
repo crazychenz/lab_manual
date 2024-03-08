@@ -1,3 +1,15 @@
+## Contents
+
+- Prepare the system
+- Install and configure caddy with docker compose
+- Install caddy root certificate into host system
+  - `sudo curl -k https://tls.lab/certs/root.crt -o /usr/local/share/ca-certificates/lab-root.crt`
+  - `sudo ln -s /usr/local/share/ca-certificates/lab-root.crt /etc/ssl/certs/lab-root.crt`
+  - `sudo update-ca-certificates`
+  - Restart docker for the update to take effect: `sudo systemctl restart docker`
+  - `docker login -u gitea_user git.lab`
+
+
 Mostly from: https://caddyserver.com/docs/running#docker-compose
 
 ```sh
