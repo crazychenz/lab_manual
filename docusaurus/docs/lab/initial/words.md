@@ -3,6 +3,12 @@ sidebar_position: 5
 title: Passwords
 ---
 
+:::danger Incomplete
+
+This document is not yet written.
+
+:::
+
 <!-- ```sh
 sudo su -c "mkdir -p /opt/initial/words && chown user /opt/initial/words"
 mkdir -p /opt/initial/words/state/data

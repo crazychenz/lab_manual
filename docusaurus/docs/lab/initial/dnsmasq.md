@@ -3,6 +3,12 @@ sidebar_position: 3
 title: DNS
 ---
 
+:::danger Incomplete
+
+This document is not yet written.
+
+:::
+
 Nearly everything that has to do with web services requires DNS entries. For example, if you want a web server to provide Host based routing to multiple _virtual_ hosts on the same IP, you need DNS entries. If you want to enable server side or client side TLS in web services, you'll most certainly want host names (although not strictly required). Plus, many advanced web features (e.g. progressive web applications) are required to only exist in an HTTPS context by the web browser. In summary, following a baseline OS install, having a DNS server setup is a must.
 
 There are a few different DNS servers worth considering for a small-scale network. CoreDNS, bind, and dnsmasq to name a few. For my purposes, dnsmasq remains the best choice because of its built in DHCP and TFTP functionality. Combining DHCP, TFTP, and DNS affords you the ability to setup PXE boot on your network, enabling auto-provisioning of systems as they are connected and boot from the network. That said, for now we'll only focus on DNS in our "initial" environment.

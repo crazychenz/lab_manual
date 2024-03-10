@@ -1,3 +1,15 @@
+---
+sidebar_position: 2
+title: Plan
+---
+
+
+:::danger Incomplete
+
+This document is not yet written.
+
+:::
+
 ## Overview
 
 OK, plan:

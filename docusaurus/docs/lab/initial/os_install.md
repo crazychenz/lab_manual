@@ -3,6 +3,12 @@ sidebar_position: 2
 title: Overview
 ---
 
+:::danger Incomplete
+
+This document is not yet written.
+
+:::
+
 ## OS Install
 
 - [Download Ubuntu 22.04.3](https://releases.ubuntu.com/22.04.3/ubuntu-22.04.3-desktop-amd64.iso).

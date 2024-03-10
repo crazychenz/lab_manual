@@ -3,6 +3,12 @@ sidebar_position: 4
 title: HTTP & CA
 ---
 
+:::danger Incomplete
+
+This document is not yet written.
+
+:::
+
 ## Contents
 
 - Prepare the system

@@ -3,6 +3,12 @@ sidebar_position: 6
 title: Gitea
 ---
 
+:::danger Incomplete
+
+This document is not yet written.
+
+:::
+
 ## Contents
 
 - Preparing The System
