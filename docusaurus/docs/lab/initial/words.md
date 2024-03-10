@@ -1,3 +1,7 @@
+---
+sidebar_position: 5
+title: Passwords
+---
 
 <!-- ```sh
 sudo su -c "mkdir -p /opt/initial/words && chown user /opt/initial/words"

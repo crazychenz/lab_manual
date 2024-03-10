@@ -1,3 +1,8 @@
+---
+sidebar_position: 6
+title: Gitea
+---
+
 ## Contents
 
 - Preparing The System

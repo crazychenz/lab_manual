@@ -32,13 +32,13 @@ case $DO_CMD in
     cd oci/static-site && ./push.sh && cd ${WD}
     ;;
 
-  start)
-    docker-compose up -d
-    ;;
+  #start)
+  #  docker compose up -d
+  #  ;;
   
-  stop)
-    docker-compose down
-    ;;
+  #stop)
+  #  docker compose down
+  #  ;;
 
   restart)
     ./do stop ; ./do start
@@ -56,7 +56,15 @@ case $DO_CMD in
     git push origin deploy
     git checkout main
     ;;
-    
+
+  authorbuild)
+    cd oci/author-site ; ./build.sh ; cd ${WD}
+    ;;
+
+  start)
+    docker compose up -d
+    ;;
+
   *)
     usage
     ;;

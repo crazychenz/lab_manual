@@ -2,11 +2,11 @@
 
 OK, plan:
 
-- Create lab **VM** and install lab admin host **OS** [OS-Install](./os_install)
-- Install **DNS**, because *everything* needs hostnames. [dnsmasq](./dnsmasq)
-- Install a **CA & HTTPS** server for reverse proxies, because *almost everyting* needs HTTPS. [caddy](./caddy)
-- Install a **password manager**, because *everything* needs credentials. [vaultwarden](./words)
-- Install a **git and artifact repository** to enable configuration management and GitOps, because CM is *good practice*. [gitea](./gitea)
+- Create lab **VM** and install lab admin host **OS** [OS-Install](./initial/os_install)
+- Install **DNS**, because *everything* needs hostnames. [dnsmasq](./initial/dnsmasq)
+- Install a **CA & HTTPS** server for reverse proxies, because *almost everyting* needs HTTPS. [caddy](./initial/caddy)
+- Install a **password manager**, because *everything* needs credentials. [vaultwarden](./initial/words)
+- Install a **git and artifact repository** to enable configuration management and GitOps, because CM is *good practice*. [gitea](./initial/gitea)
 - Install HTTPS hosted **manual** for the *whole system* that is managed by our DNS, CA, HTTPS, GIT, and Artifact Repo. [manual](./docs)
 
 Once we're at the point that all of the above is complete:
