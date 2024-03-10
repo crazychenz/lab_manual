@@ -74,13 +74,13 @@ const config = {
         items: [
           {
             type: 'docSidebar',
-            sidebarId: 'tutorialSidebar',
+            sidebarId: 'docsSidebar',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Docs',
           },
           {to: '/blog', label: 'Blog', position: 'left'},
           {
-            href: 'https://github.com/facebook/docusaurus',
+            href: 'https://git.lab/lab/system_manual',
             label: 'GitHub',
             position: 'right',
           },
@@ -89,7 +89,7 @@ const config = {
       footer: {
         style: 'dark',
         links: [
-          {
+          /*{
             title: 'Docs',
             items: [
               {
@@ -127,7 +127,7 @@ const config = {
                 href: 'https://github.com/facebook/docusaurus',
               },
             ],
-          },
+          },*/
         ],
         copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
       },
