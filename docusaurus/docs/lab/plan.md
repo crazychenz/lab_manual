@@ -4,19 +4,6 @@ title: Plan
 ---
 
 
-:::danger Incomplete
-
-This document is not yet written.
-
-:::
-
-- Contents
-- Synopsis
-- Description
-- Reasoning
-- Procedure
-- Resources
-
 Whether we admit it or not, *every* project starts with a plan and the plan *always* changes. Here is my plan...
 
 ## Description
@@ -25,34 +12,43 @@ The following pages describe a process that I've been developing that I call a G
 
 A future goal or deliverable of the GODS effort is to have a turn key solution for installing everything at once (similar to the classic LAMP software stack), but for a more generic and comprehensive development environment. Before we get to a fully automated setup, perhaps a manual process with many oppurtunities for situationally specific tweaks is a better place to start.
 
-## Synopsis
+## Overview
 
 1. Create an initial environment that gets us to the starting line.
 
-  - Create lab **VM** and install lab admin host **OS** [OS-Install](./initial/os_install)
-  - Install **DNS**, because *everything* needs hostnames. [dnsmasq](./initial/dnsmasq)
-  - Install a **CA & HTTPS** server for reverse proxies, because *almost everyting* needs HTTPS. [caddy](./initial/caddy)
-  - Install a **password manager**, because *everything* needs credentials. [vaultwarden](./initial/words)
-  - Install a **git and artifact repository** to enable configuration management and GitOps, because CM is *good practice*. [gitea](./initial/gitea)
-  - Install HTTPS hosted **manual** for the *whole system* that is managed by our DNS, CA, HTTPS, GIT, and Artifact Repo. [manual](./docs)
+    1. Create lab **VM** and [install lab administration host **OS**](./initial/os_install/os_install) with Docker using Compose v2.
+
+    2. [Install all of the initial services](./initial/services/overview) required to bootstrap our baseline environment.
+
+        1. Install **DNS**, because *everything* needs hostnames.\
+        <!-- [dnsmasq](./initial/services/dnsmasq) -->
+        2. Install a **CA & HTTPS** server for reverse proxies, because *almost everyting* needs HTTPS.
+        <!-- [caddy](./initial/services/caddy) -->
+        3. Install a **password manager**, because *everything* needs credentials.
+        <!-- [vaultwarden](./initial/services/words) -->
+        4. Install a **git and artifact repository** to enable configuration management and GitOps, because CM is *good practice*.
+        <!-- [gitea](./initial/services/gitea) -->
+
+    3. Install HTTPS hosted **manual** for the *whole system* that is managed by our DNS, CA, HTTPS, GIT, and Artifact Repo.
+    <!-- [manual](./docs) -->
 
 2. Ensure the baseline is stored, managed, or controlled by GitOps. The is essential for good configuration management.
 
 3. Apply processes to ensure our system has availability, integrity, and confidentiality to an appropriately prescriptive degree.
 
-  - Ensure there is a backup process and there is a tested restoration plan ... for posterity and availability.
-  - Add a process to verify the baseline of the system ... to notify and protect against misinformed administration.
-  - Add localized caches or mirrors ... to keep things running without internet.
-  - Add security products, like clamav, greenbones, and so forth ... to protect from outside attackers.
-  - Add centralized authentication, identity management, and auditing via FreeIPA, LDAP, syslogs, and so forth ... to protect from inside attackers.
-  - Add asymetric encryption mechanisms ... for long term confidentiality and integrity of audits and logs.
+    - Ensure there is a backup process and there is a tested restoration plan ... for posterity and availability.
+    - Add a process to verify the baseline of the system ... to notify and protect against misinformed administration.
+    - Add localized caches or mirrors ... to keep things running without internet.
+    - Add security products, like clamav, greenbones, and so forth ... to protect from outside attackers.
+    - Add centralized authentication, identity management, and auditing via FreeIPA, LDAP, syslogs, and so forth ... to protect from inside attackers.
+    - Add asymetric encryption mechanisms ... for long term confidentiality and integrity of audits and logs.
 
 4. Add utility to allow the secure scalability and flexibility of the system as required by the application specific purposes of the system.
 
-  - Network management (VLANs, port security, firewalls)
-  - Virtualization management (Hypervisors, Shared Resources)
-  - File Sharing (NFS, Gluster, SFTP, CIFS)
-  - Third Party Tool Repositories and Installs
+    - Network management (VLANs, port security, firewalls)
+    - Virtualization management (Hypervisors, Shared Resources)
+    - File Sharing (NFS, Gluster, SFTP, CIFS)
+    - Third Party Tool Repositories and Installs
 
 ## Reasoning - Why do this at all? 
 

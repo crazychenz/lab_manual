@@ -10,6 +10,13 @@ This document is not yet written.
 
 :::
 
+- Contents
+- Synopsis
+- Description
+- Reasoning
+- Procedure
+- Resources
+
 Below we'll go over my approach to our system end goals and some of my thoughts surrounding those approaches.
 
 Below we'll go over the purpose and use of each of the following tools:
