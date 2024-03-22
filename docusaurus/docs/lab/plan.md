@@ -16,7 +16,7 @@ A future goal or deliverable of the GODS effort is to have a turn key solution f
 
 1. Create an initial environment that gets us to the starting line.
 
-    1. Create lab **VM** and [install lab administration host **OS**](./initial/os/install) with Docker using Compose v2.
+    1. Create lab **VM** and [install lab administration host **OS**](./initial/os_install) with Docker using Compose v2.
 
     2. [Install all of the initial services](./initial/services/overview) required to bootstrap our baseline environment.
 

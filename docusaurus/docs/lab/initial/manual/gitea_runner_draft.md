@@ -1,6 +1,5 @@
 ---
-sidebar_position: 6
-title: Gitea
+title: Gitea Runner
 draft: true
 ---
 
@@ -9,93 +8,6 @@ draft: true
 This document is not yet written.
 
 :::
-
-## Contents
-
-- Preparing The System
-- Installing Gitea Service (with docker compose)
-- Create the admin organization (lab) and first repo (system_manual)
-- Install and configure a Gitea Runner
-- Mirror and install the checkout Action
-- TODO: Initialize system_manual project and add an action workflow.
-- TODO: Push a resulting image into gitea docker repository.
-
-## System Adjustments
-
-- Reconfigure SSHd to use a different port (e.g. 2222) in `/etc/ssh/sshd_config`.
-
-  - `sudo systemctl restart sshd`
-
-<!-- - Create initial gitea folder.
-
-  - `sudo su -c "mkdir -p /opt/initial/gitea && chown -R $(id -u) /opt/initial"` -->
-
-<!-- - **TODO:** Create a custom act_runner with caddy root certificate. This is accomplished, in Alpine, by appending the root certificate to `/etc/ssl/certs/ca-certificates.crt`. Copy cert to `/usr/local/share/ca-certificates` when using `update-ca-certificates` command. -->
-
-<!-- - Create the initial `docker-compose.yml` file:
-
-  ```yaml
-  version: "3"
-
-  networks:
-    gitea:
-      external: false
-
-  services:
-    gitea_svc:
-      image: gitea/gitea:1.21.4
-      container_name: gitea
-      environment:
-        - USER_UID=1000
-        - USER_GID=1000
-      restart: always
-      networks:
-        - gitea
-      volumes:
-        - ./data:/data
-        - /etc/timezone:/etc/timezone:ro
-        - /etc/localtime:/etc/localtime:ro
-      ports:
-        - "3000:3000"
-        - "22:22"
-
-    gitea_sys_runner:
-      image: gitea/act_runner:latest-dind-rootless
-      container_name: gitea_runner
-      depends_on:
-        - gitea_svc
-      privileged: true
-      environment:
-        - CONFIG_FILE=/data/config.yaml
-        - DOCKER_HOST=unix:///var/run/user/1000/docker.sock
-      volumes:
-        - /opt/initial/gitea/act_runner:/data
-      restart: unless-stopped
-  ``` -->
-
-<!-- - Modify the USER_UID/USER_GID to match the gitea user values. -->
-
-- `docker compose up -d gitea_svc`
-
-- Open Gitea via its hostname (`https://git.lab/`) from `dnsmasq_svc` in a browser on the same network. 
-
-- Leave the defaults and click "Install Gitea" button- toward the bottom of the page.
-
-- On the next screen (i.e. the login screen), click "Need an account? Register Now."
-
-  - Select a username (e.g. gitea_user) and a password > 8 characters (e.g. password), then click "Register Account".
-
-  - Note: If you forget the password, you can reset it with:
-
-    ```
-    docker exec -it <container-id> su git bash -c "gitea admin user change-password -u <user> -p <pw>"
-    ```
-
-- We now have an operating git revision control with many usability features found in other git frontends like Gitlab, Github, Gogs, and many others.
-
-- From here we want to add our SSH key to our account in Gitea. Grab the key in the clipboard: `cat /home/user/.ssh/id_rsa.pub` and paste it as an SSH key in Gitea under the account settings.
-
-- **Git and Artifact Repository is installed.**
 
 ## Create Organization, Create Manual Repo, Setup System Runner
 

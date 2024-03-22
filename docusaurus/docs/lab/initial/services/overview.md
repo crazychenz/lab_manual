@@ -93,7 +93,6 @@ services:
 
   caddy_certs_init:
     image: git.lab/lab/caddy:certs_init
-    depends_on: [dnsmasq_svc]
     container_name: caddy_certs_init
     build: 
       context: context
@@ -219,16 +218,12 @@ services:
       - /opt/state/gitea_sys_runner/data:/data
     restart: unless-stopped
 
-
-networks:
-  gitea:
-    external: false
-
 ```
 
 To run this docker file, you must first initialize the environment:
 
 ```
+# Change your host SSH port to something other than port 22
 # Ensure /etc/resolv.conf is pointing at a working DNS (e.g. 9.9.9.9)
 docker compose build dnsmasq_svc
 docker compose build caddy_certs_init
