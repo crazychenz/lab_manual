@@ -21,6 +21,22 @@ WD=$(pwd)
 
 case $DO_CMD in
 
+  authorbuild)
+    cd oci/author-site ; ./build.sh ; cd ${WD}
+    ;;
+
+  start)
+    docker compose up -d
+    ;;
+
+  stop)
+    docker compose down
+    ;;
+
+  restart)
+    ./do stop ; ./do start
+    ;;
+
   build)
     # Note: I would prefer to use `--strip-components=1` with ADD, but
     # that option does not exist. Therefore we strip when building the tar.
@@ -32,22 +48,10 @@ case $DO_CMD in
     cd oci/static-site && ./push.sh && cd ${WD}
     ;;
 
-  #start)
-  #  docker compose up -d
-  #  ;;
-  
-  #stop)
-  #  docker compose down
-  #  ;;
-
-  restart)
-    ./do stop ; ./do start
-    ;;
-
   cicd)
     ./do build && ./do push
     ;;
-  
+
   deploy)
     # Guard against dirty repos.
     git status 2>/dev/null | grep "nothing to commit" || exit 1
@@ -55,14 +59,6 @@ case $DO_CMD in
     git merge main
     git push origin deploy
     git checkout main
-    ;;
-
-  authorbuild)
-    cd oci/author-site ; ./build.sh ; cd ${WD}
-    ;;
-
-  start)
-    docker compose up -d
     ;;
 
   *)

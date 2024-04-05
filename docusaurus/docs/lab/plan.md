@@ -20,14 +20,10 @@ A future goal or deliverable of the GODS effort is to have a turn key solution f
 
     2. [Install all of the initial services](./initial/services/overview) required to bootstrap our baseline environment.
 
-        1. Install **DNS**, because *everything* needs hostnames.\
-        <!-- [dnsmasq](./initial/services/dnsmasq) -->
-        2. Install a **CA & HTTPS** server for reverse proxies, because *almost everyting* needs HTTPS.
-        <!-- [caddy](./initial/services/caddy) -->
-        3. Install a **password manager**, because *everything* needs credentials.
-        <!-- [vaultwarden](./initial/services/words) -->
-        4. Install a **git and artifact repository** to enable configuration management and GitOps, because CM is *good practice*.
-        <!-- [gitea](./initial/services/gitea) -->
+        1. [Install **DNS**](./initial/services/dnsmasq), because *everything* needs hostnames.\
+        2. [Install a **CA & HTTPS** server](./initial/services/caddy) for reverse proxies, because *almost everyting* needs HTTPS.
+        3. [Install a **password manager**](./initial/services/words), because *everything* needs credentials.
+        4. [Install a **git and artifact repository**](./initial/services/gitea) to enable configuration management and GitOps, because CM is *good practice*.
 
     3. Install HTTPS hosted **manual** for the *whole system* that is managed by our DNS, CA, HTTPS, GIT, and Artifact Repo.
     <!-- [manual](./docs) -->
