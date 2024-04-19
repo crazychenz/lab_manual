@@ -1,6 +1,6 @@
 ---
 sidebar_position: 10
-title: Documentation Philosophy
+title: My Documentation Philosophy
 draft: false
 ---
 
@@ -8,7 +8,7 @@ draft: false
 
 To recap, we now have an environment where we can securely store our credentials, a fully operational HTTPS context via a local DNS/CA/WebServer/ReverseProxy, as well as a repository to store all of our project files, artifacts, and revisions.
 
-The last significant part of the baseline is a way to document our system. 
+The last significant part of the baseline is a way to document our system.
 
 Many many engineers will "Ugh" at the idea of documentation, myself included. In my years of developing and engineering solutions, I've found that its 100% a slog to write documentation for others. Especially when you don't know their background, how they think, or what really matters to them (i.e. the generic audience). If this is a challenge or obstacle for you, I would advise you immediately stop writing for others! Instead, **write documention for yourself!** 
 
@@ -24,9 +24,13 @@ Now that we have that out of the way, I'd also highly recommend that you always 
 
 Now that we know our audience, lets talk about my personal preferences for documentation. The gist is that I'll be using Markdown, Docusaurus, NodeJS, Docker, and Caddy to manage and present documentation.
 
-When I was first exposed to Wikipedia (circa 2004), I was amazed at how the Wiki syntax used was so limited. How could you develop such a wonderful product and leave out so many features? Turns out that this was a very deliberate decision. Limiting the bells and whistles in how we can present the information forces the author to think in works instead of excessively complex visual aids. Fast forward to the rise of GitHub and you'll find Markdown following a similar approach (i.e. limited features in favor of more uniform presentation). 
+### Markdown
 
-Other than Markdown and WikiInfo, I've also used ReStructuredText (RST), LaTeX, and a few others. All of these have their pros and cons, but I've really been biased towards Markdown for its readability in plain text as well as the wealth of community support in conversions to other formats. I can write a document in pure Markdown and easily convert it to a `man` page, PDF, `epub`, and many other common formats. This manual is written in Markdown, albeit presented by Docusaurus and sometimes using MDX.
+When I was first exposed to Wikipedia (circa 2004), I was amazed at how the Wiki syntax used was so limited (in contrast to something like Microsoft Word). How could you develop such a wonderful product and leave out so many features? Turns out that this was a very deliberate decision. Limiting the bells and whistles in how we can present the information forces the author to think in words instead of excessively complex visual aids. Fast forward to the rise of GitHub and you'll find Markdown following a similar approach (i.e. limited features in favor of more uniform presentation). 
+
+Other than Markdown and WikiInfo, I've also used ReStructuredText (RST), LaTeX, and a few others. All of these have their pros and cons, but I've really been biased towards Markdown for its readability in plain text as well as the wealth of community support in conversions to other formats. I can write a document in pure Markdown and easily convert it to a `man` page, PDF, `epub`, HTML, and many other common formats. This manual is written in Markdown, albeit presented by Docusaurus and sometimes using MDX (for excessive visual aids `;-)`).
+
+### Docusaurus & React & MDX
 
 Sometime just before 2020, I learned about [Jamstack](https://jamstack.org/generators/). Regardless of what anyone thinks of Jamstack, my takeaway was that it was now a normal business process to _compile_ websites and upload the output to content delivery systems (CDNs). After some market research and experimentation, I finally landed on Facebook's Docusaurus as the **best** framework for my desired workflow that supported blogging and documentation presentation. For me, nothing has come close in terms of polish, feature set, extensibility, and support. This manual is implemented with Docusaurus.
 
