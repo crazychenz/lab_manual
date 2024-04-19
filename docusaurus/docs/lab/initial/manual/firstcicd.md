@@ -46,14 +46,14 @@ jobs:
     - name: Dump environment variables
       run: env
 
-    - name: Build systems image
+    - name: Build and push system_manual image
       run: ./do cicd
 
-    - name: Rollout systems image in k3s.vinnie.work
+    - name: Rollout system_manual image to www.lab
       run: |
-        ssh -o StrictHostKeyChecking=no \
-          -i /home/cicd/.ssh/id_rsa cicd@k3s.vinnie.work \
-          kubectl -n work-vinnie rollout restart deployment/work-vinnie-systems
+        ssh -o StrictHostKeyChecking=no -p 2222 \
+          -i /home/cicd/.ssh/id_rsa cicd@www.lab \
+          "docker pull git.lab/lab/manuals && "
 ```
 
 In the above descriptor:

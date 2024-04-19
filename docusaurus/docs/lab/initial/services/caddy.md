@@ -185,6 +185,13 @@ Note: You can add as many services as you'd like at this point. As long as the s
         docker login -u gitea_user git.lab
         ```
 
+- Copy certificate from running caddy service and install in Linux without `update-ca-certificates`:
 
+    ```sh
+    sudo wget --no-check-certificate https://tls.lab/certs/root.crt \
+      -O /etc/ssl/certs/lab-root.crt \
+      && cat /etc/ssl/certs/lab-root.crt \
+        | sudo tee -a /etc/ssl/certs/ca-certificates.crt
+    ```
 
 
