@@ -17,8 +17,9 @@ jobs:
       run: env
     
     - name: Login to Gitea Docker Registry
-      uses: docker/login-action@v3
+      uses: https://git.lab/docker/login-action@v3
       with:
+        registry: git.lab
         username: ${{ secrets.GITEADOCKER_USERNAME }}
         password: ${{ secrets.GITEADOCKER_TOKEN }}
 
