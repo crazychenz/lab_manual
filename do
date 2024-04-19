@@ -54,7 +54,7 @@ case $DO_CMD in
 
   deploy)
     # Guard against dirty repos.
-    git status 2>/dev/null | grep "nothing to commit" || echo "NOTICE: Clean up repo before deploying." && exit 1
+    git status 2>/dev/null | grep "nothing to commit" || exit 1
     git checkout deploy
     git merge main
     git push origin deploy
