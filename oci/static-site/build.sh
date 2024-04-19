@@ -7,7 +7,7 @@
 
 epoch=1707651051
 version=0.$(printf "%x" $(($(date +%s)-${epoch})))
-image_prefix=git.lab/lab/manuals
+image_prefix=git.lab/lab/system_manual
 src_relpath=../..
 
 docker build -f Dockerfile -t ${image_prefix}:stage ${src_relpath} && \

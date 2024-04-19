@@ -2,7 +2,7 @@
 
 services:
   author:
-    image: git.lab/lab/manuals:author
+    image: git.lab/lab/system_manual:author
     volumes:
     - ./docusaurus/docs:/opt/workspace/docusaurus/docs
     network_mode: host
