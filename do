@@ -55,7 +55,7 @@ case $DO_CMD in
   deploy)
     # Guard against dirty repos.
     git status 2>/dev/null | grep "nothing to commit" || exit 1
-    git checkout deploy
+    git checkout deploy || git checkout -b deploy
     git merge main
     git push origin deploy
     git checkout main
