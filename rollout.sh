@@ -2,9 +2,10 @@
 # This script is run from act_runner with the following cmd:
 # ssh -p 2222 -o StrictHostKeyChecking=no cicd@www.lab /bin/sh < rollout.sh
 
+export GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+
 cd /opt/services
 if [ ! -e system_services ]; then
-  GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
   git clone -b deploy git@git.lab:lab/system_services.git
 fi
 if [ ! -e system_services ]; then
