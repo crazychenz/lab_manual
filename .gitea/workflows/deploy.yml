@@ -11,7 +11,7 @@ jobs:
     steps:
 
     - name: Check out repository code
-      uses: https://git.lab/actions/checkout@594274c467e5d08236d89c46ee2df636a799cbce
+      uses: https://git.lab/actions/checkout@v4
 
     - name: Dump environment variables
       run: env
