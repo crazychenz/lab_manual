@@ -23,5 +23,21 @@ jobs:
         username: ${{ secrets.GITEADOCKER_USERNAME }}
         password: ${{ secrets.GITEADOCKER_TOKEN }}
 
-    - name: Build systems image
+    - name: Build system_manual image
       run: ./do cicd
+    
+    # Assumed that /opt/services is pre-created and owned by cicd.
+    - name: Deploy system_manual image
+      run: |
+        ssh -p 2222 -o StrictHostKeyChecking=no cicd@www.lab /bin/sh <<EOF
+        cd /opt/services
+        if [ ! -e system_services ]; then
+          git clone https://git.lab/lab/system_services.git
+        fi
+        cd system_services
+        git pull
+        docker compose pull && docker compose up -d
+        # docker compose up --force-recreate --build -d
+        # docker image prune -f
+        EOF
+        ""
