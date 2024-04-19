@@ -30,5 +30,6 @@ jobs:
     # Assumed that cicd has run docker login on destination machine.
     - name: Deploy system_manual image
       run: |
+        ls && \
         ssh -p 2222 -o StrictHostKeyChecking=no cicd@www.lab \
           /bin/sh < rollout.sh
