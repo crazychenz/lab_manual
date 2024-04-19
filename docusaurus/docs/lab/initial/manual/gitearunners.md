@@ -88,7 +88,7 @@ docker compose down gitea_sys_runner && docker compose up -d gitea_sys_runner
 
 Verify that the running has successfully registered with Gitea from inside the Gitea administration section. Click the `Actions` menu link in the left side bar and then `Runners` in the sub-menu. You should be able to see the runner `sys_runner` with its status as `Idle` as well as some other information.
 
-### Add Checkout Action
+### Adding External Actions
 
 One of the most important features required for our runner is the ability to checkout the referenced code from the repository. This checkout capability has been pre-implemented by GitHub and we'll reuse it by adding it to our Gitea instance.
 
@@ -103,6 +103,24 @@ git push --mirror origin
 ```
 
 In general, you can import many of the github action definition with the same pattern. For my purposes, I only use this for checkout and do nearly everything else with SSH commands.
+
+TODO:
+```
+git clone --mirror https://github.com/docker/login-action.git login-action
+cd login-action
+git remote rm origin
+git remote add origin git@git.lab:docker/login-action.git
+git push --mirror origin
+```
+
+```
+git clone --mirror https://github.com/docker/build-push-action.git build-push-action
+cd build-push-action
+git remote rm origin
+git remote add origin git@git.lab:docker/build-push-action.git
+git push --mirror origin
+```
+
 
 ### Setup Pre-Project Actions Feature
 

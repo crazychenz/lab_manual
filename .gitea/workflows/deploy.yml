@@ -27,6 +27,7 @@ jobs:
       run: ./do cicd
     
     # Assumed that /opt/services is pre-created and owned by cicd.
+    # Assumed that cicd has run docker login on destination machine.
     - name: Deploy system_manual image
       run: |
         ssh -p 2222 -o StrictHostKeyChecking=no cicd@www.lab \

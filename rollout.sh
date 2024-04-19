@@ -18,6 +18,7 @@ cd system_services
 git pull
 
 # Do the rollout.
+# Note: You must manually do a docker login for
 docker compose pull && docker compose up -d
 
 # Optional commands for cleaner maintenance.
