@@ -15,6 +15,12 @@ jobs:
 
     - name: Dump environment variables
       run: env
+    
+    - name: Login to Gitea Docker Registry
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.GITEADOCKER_USERNAME }}
+        password: ${{ secrets.GITEADOCKER_TOKEN }}
 
     - name: Build systems image
       run: ./do cicd

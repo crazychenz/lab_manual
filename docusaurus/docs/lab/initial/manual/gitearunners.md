@@ -31,6 +31,7 @@ gitea_sys_runner:
     dockerfile_inline: |
       FROM gitea/act_runner:latest-dind-rootless
       USER root
+      RUN apk add -U nodejs
       RUN wget --no-check-certificate https://tls.lab/certs/root.crt \
         -O /etc/ssl/certs/lab-root.crt \
         && wget --no-check-certificate https://tls.lab/certs/intermediate.crt \
