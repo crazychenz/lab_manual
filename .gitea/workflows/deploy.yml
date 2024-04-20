@@ -16,7 +16,8 @@ jobs:
     - name: Check out repository code
       uses: https://git.lab/actions/checkout@v4
       with:
-        repository: lab/lab_services-config
+        repository: git@git.lab:lab/lab_services-config.git
+        branch: deploy
         path: './lab_services-config'
 
     - name: Dump environment variables
