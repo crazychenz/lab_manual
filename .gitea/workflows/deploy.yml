@@ -15,6 +15,9 @@ jobs:
     
     - name: Checkout lab_services-config for rollout script
       run: |
+        NOKNOWNHOSTS="-o UserKnownHostsFile=/dev/null" \
+        NOHOSTCHECKS="-o StrictHostKeyChecking=no" \
+        GIT_SSH_COMMAND="ssh $NOKNOWNHOSTS $NOHOSTCHECKS" \
         git clone --depth 1 git@git.lab:lab/lab_services-config.git \
           --branch deploy --single-branch lab_services-config
 
