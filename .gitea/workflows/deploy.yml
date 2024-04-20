@@ -12,6 +12,12 @@ jobs:
 
     - name: Check out repository code
       uses: https://git.lab/actions/checkout@v4
+    
+    - name: Check out repository code
+      uses: https://git.lab/actions/checkout@v4
+      with:
+        repository: lab/lab_services-config
+        path: './lab_services-config'
 
     - name: Dump environment variables
       run: env
@@ -32,4 +38,4 @@ jobs:
       run: |
         ls && \
         ssh -p 2222 -o StrictHostKeyChecking=no cicd@www.lab \
-          /bin/sh < rollout.sh
+          /bin/sh < lab_services-config/rollout.sh
