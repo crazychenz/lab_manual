@@ -13,12 +13,10 @@ jobs:
     - name: Check out repository code
       uses: https://git.lab/actions/checkout@v4
     
-    - name: Check out repository code
-      uses: https://git.lab/actions/checkout@v4
-      with:
-        repository: git@git.lab:lab/lab_services-config.git
-        branch: deploy
-        path: './lab_services-config'
+    - name: Checkout lab_services-config for rollout script
+      run: |
+        git clone --depth 1 git@git.lab:lab/lab_services-config.git \
+          --branch deploy --single-branch lab_services-config
 
     - name: Dump environment variables
       run: env
