@@ -9,13 +9,13 @@ In this page, I quickly rush through many of my conventions for setting up a VM 
 
 1. For this manual, we're using Ubuntu 22.04.3. [Download Ubuntu 22.04.3](https://releases.ubuntu.com/22.04.3/ubuntu-22.04.3-desktop-amd64.iso).
 
-2. Regardless of current version, I always attempt to say within LTS release versions for both hosts and guest operating systems. (The exception is when there is an explicit reason for a specific version, for example testing.) This ensures that we won't have to worry about baselines changing beneath us for as long as possible. [Ubuntu LTS Releases](https://releases.ubuntu.com/)
+2. Regardless of current version, I always attempt to stay within LTS release versions for both hosts and guest operating systems. (The exception is when there is an explicit reason for a specific version, for example testing.) This ensures that we won't have to worry about baselines changing beneath us for as long as possible. [Ubuntu LTS Releases](https://releases.ubuntu.com/)
 
 3. Within the Linux environment, I typically use VirtualBox because of its cost and simplicity. Absent of VirtualBox, I prefer to use qemu or libvirt/virsh/virtmanager with KVM. You can of course use whatever hypervisor works for you. I always name my VMs after their primary hostname; mine is called `lab.vinnie.work`.
 
-4. Whether you are using a VM or physical host, add a second hard disk as "external storage". In general, plan for failed disks, so when using VMs, have your external virtual disk live on another physical disk for redundency. In this case, we're merely providing ourselves with a disk to scale and a location to perform backups.
+4. Whether you are using a VM or physical host, add a second hard disk as "external storage". In general, plan for failed disks, so when using VMs, have your external virtual disk live on another physical disk for redundency. In this case, we're merely providing ourselves with a disk to scale and a location to demonstrate the process to perform backups.
 
-5. Start up VM with Ubuntu ISO to install operating system.
+5. Start up the VM with an Ubuntu ISO to install the operating system.
 
 6. Run through the various dialogs to setup the OS as desired.
 
@@ -24,10 +24,14 @@ In this page, I quickly rush through many of my conventions for setting up a VM 
 7. After the first boot, ensure that all packages are upgraded. This may or may not automatically popup as a dialog. In the terminal, you can always run something like the following:
 
   ```sh
-  sudo su -c "apt-get update && apt-get upgrade"
+  sudo su -c "apt-get update && apt-get dist-upgrade"
   ```
 
-8. My preference is to always have tmux (v3+) available in my terminals to allow me to manage multiple terminals in a single window. To install tmux, run `apt-get install tmux` and add the following config `~/.tmux.conf` for some handly visualizations and mouse support:
+8. An absolute must for every system is SSH. Install OpenSSH on Ubuntu with `apt-get install openssh-server openssh-client`.
+
+9. Setup user SSH keys: `ssh-keygen` (Accept defaults). Note: I generally use a passphrase for keys used by humans and no passphrase for keys used for automation.
+
+10. My preference is to always have the terminal multiplexer application tmux (v3+) available in my terminals to allow me to manage multiple terminals in a single window. To install tmux, run `apt-get install tmux` and add the following config `~/.tmux.conf` for some handy (dark mode) visualizations and mouse support:
 
     ```sh
     set -g mouse on
@@ -45,11 +49,9 @@ In this page, I quickly rush through many of my conventions for setting up a VM 
     bind-key x kill-pane
     ```
 
-9. An absolute must for every system is SSH. Install OpenSSH on Ubuntu with `apt-get install openssh-server openssh-client`
+<!-- TODO: Add light mode tmux config here. -->
 
-10. Setup user SSH keys: `ssh-keygen` (Accept defaults).
-
-11. For disk management, I preder to use LVM partitions. You can choose to use btrfs or zfs, but I find that LVM's separation from the OS affords me the right amount of flexibility in most situations.
+11. For disk management, I prefer to use LVM partitions. You can choose to use btrfs or zfs, but I find that LVM's separation from the OS affords me the right amount of flexibility in most situations.
 
     Note: I create a number of LVM partitions so that theoretically I have the flexibility to shrink and reclaim some low level partition table space if needed. This isn't a common situation in well funded production environments, but remains tactically prudent when working on a shoe string budget where you may not have the ability to purchase additional storage on a whim.
 
@@ -108,10 +110,11 @@ In this page, I quickly rush through many of my conventions for setting up a VM 
 
     - `apt-get install vim` (because Vim is the dominant terminal text editor.) `;-)`
 
+    - Naturally, emacs and nano are also options. What's important here is that you have an editor that works in the terminal window that you are comfortable with.
+
 14. Install Docker
 
     - **Caution:** Do not install docker.io from Ubuntu repo and do not install docker-compose from PyPi. These are deprecated or out-of-date versions. See the [Docker Ubuntu Install Documentation](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository) for more information.
-
 
     - Add the docker apt repository and install from it:
 
@@ -132,7 +135,7 @@ In this page, I quickly rush through many of my conventions for setting up a VM 
         docker-buildx-plugin docker-compose-plugin
       ```
 
-15. Add yourself (`whoami`) to docker group and reset your terminal (logout and login.)
+15. Add yourself (`whoami`) to docker group and reset your terminal (e.g. logout and login.)
 
     - Note: VSCode has an existing bug that prevents groups updates in Remote-SSH without restarting the server. User's have [reported this issue](https://github.com/microsoft/vscode-remote-release/issues/5813), but due to the aggresive ticket pruning employed by the upstream VSCode team, the issue has gone unresolved. As the comments elude to, you can restart the VSCode server with: `ps uxa | grep .vscode-server | awk '{print $2}' | xargs kill -9`. If that doesn't work, restarting the entire kernel (i.e the system) should work. IMHO, VSCode is overly aggresive with a number of cached areas and this is yet another.
 

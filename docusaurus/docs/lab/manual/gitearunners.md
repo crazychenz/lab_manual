@@ -1,6 +1,6 @@
 ---
 sidebar_position: 30
-title: Configure Gitea Runner for CICD
+title: Gitea Runner for CICD
 draft: true
 ---
 
@@ -90,6 +90,10 @@ Verify that the running has successfully registered with Gitea from inside the G
 
 ### Adding External Actions
 
+Because the Gitea actions are mostly compatible with GitHub action, there are a wealth of actions that can be imported for our use. 
+
+**action/checkout**
+
 One of the most important features required for our runner is the ability to checkout the referenced code from the repository. This checkout capability has been pre-implemented by GitHub and we'll reuse it by adding it to our Gitea instance.
 
 In summary, in Gitea, create an `actions` organization, and then create an `actions/checkout` repo, then run the following commands in a temporary folder:
@@ -102,9 +106,12 @@ git remote add origin git@git.lab:actions/checkout.git
 git push --mirror origin
 ```
 
-In general, you can import many of the github action definition with the same pattern. For my purposes, I only use this for checkout and do nearly everything else with SSH commands.
+**docker/login-action**
 
-TODO:
+Since I often need a runner to login to the Docker registry, the `docker/login-action` allows me to do just that while using a username and password passed in via Gitea Runner secrets. Note: When adding secrets, I recommend doing it at the organization level so that the same credentials are shared across projects.
+
+Create a `docker` organization (if not already created) and then an empty `login-action` repository within the organization, then run the following:
+
 ```
 git clone --mirror https://github.com/docker/login-action.git login-action
 cd login-action
@@ -113,6 +120,12 @@ git remote add origin git@git.lab:docker/login-action.git
 git push --mirror origin
 ```
 
+**docker/build-push-action**
+
+Another common action for container creation is for a runner to build then push. We actually do this as well, but instead of using the upstream action we opt to use our build system so that its more repeatable when we want to do it outside of the runner's environment.
+
+Create a `docker` organization (if not already created) and then an empty `build-push-action` repository within the organization, then run the following:
+
 ```
 git clone --mirror https://github.com/docker/build-push-action.git build-push-action
 cd build-push-action
@@ -120,7 +133,6 @@ git remote rm origin
 git remote add origin git@git.lab:docker/build-push-action.git
 git push --mirror origin
 ```
-
 
 ### Setup Pre-Project Actions Feature
 
@@ -133,7 +145,7 @@ Finally, for each project that you want to use the Gitea runners with, you'll ne
 - If successful, you'll now see an "Action" link in the top bar of the project between "Pull Requests" and "Packages".
 - Click "Actions" to see past and/or present Action workflows and logs.
 
-Once we setup a project to execute a workflow on an event, you can come to this page to see, in the browser, the action terminal output as its running.
+Once we setup a project to execute a workflow on an event, you can come to this Action page to see, in the browser, the action terminal output as its running.
 
 ### Example Project Action (Runner) Configuration
 

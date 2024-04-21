@@ -7,22 +7,30 @@ title: Passwords
 
 ## The Steps
 
-Notice the vaultwarden related snippet of yaml from our initial services `docker-compose.yml` file:
+Now that you should have a DNS service, and a CA & HTTPS service, you have everything you need to start up a password manager. Create the docker compose yaml for the `vaultwarden_svc` service (`/opt/services/lab_services/services/vaultwarden_svc.yml`):
 
 ```
-vaultwarden_svc:
-  image: vaultwarden/server:latest
-  depends_on: [dnsmasq_svc, caddy_svc]
-  container_name: vaultwarden_svc
-  restart: unless-stopped
-  environment:
-    DOMAIN: "https://words.lab"
-  ports: [127.0.0.1:1080:80, 127.0.0.1:3012:3012]
-  volumes:
-    - /opt/state/vaultwarden_svc/data:/data
+services:
+  vaultwarden_svc:
+    image: vaultwarden/server:latest
+    depends_on: [dnsmasq_svc, caddy_svc]
+    container_name: vaultwarden_svc
+    restart: unless-stopped
+    environment:
+      DOMAIN: "https://words.lab"
+    ports: [127.0.0.1:1080:80, 127.0.0.1:3012:3012]
+    volumes:
+      - /opt/state/vaultwarden_svc/data:/data
 ```
 
-Vaultwarden is the first of our services that will require caddy for access. It is also  the first of our services that are not running in `network_mode: host` (i.e. it has its own network namespace). Even so, we explicitly map the vaultwarden container listeners to localhost and use `caddy_svc` as its TLS terminator and reverse proxy. In our `docker-compose.yml` snippet above, we define the host name that we want vaultwarden to identify as and the ports that we want to expose.
+Vaultwarden is the first of our services that will require a reverse proxy (Caddy) for access. It is also the first of our services that are not running in `network_mode: host` (i.e. it has its own network namespace). Even so, we explicitly map the vaultwarden container listeners to localhost and use `caddy_svc` as its TLS terminator and reverse proxy. In our docker compose yaml above, we define the host name that we want vaultwarden to identify as and the ports that we want to expose.
+
+To run vaultwarden:
+
+```sh
+cd /opt/services/lab_services/services/
+docker compose -f vaultwarden_svc.yml up -d
+```
 
 ## Initial Account and Login
 
@@ -44,7 +52,7 @@ Its fantastic to have Vaultwarden as a centralized location for credential and p
 
 ## Backup
 
-Due to the importance of credentials, esspecially credentials that you don't use every day, we want to take extra care that they are backed up for disaster recovery purposes. My typical approach to this is to take daily backups for each day of the week and then a copy of one of the daily backups monthly and yearly for posterity.
+Due to the importance of credentials, especially credentials that you don't use every day, we want to take extra care that they are backed up for disaster recovery purposes. My typical approach to this is to take daily backups for each day of the week and then a copy of one of the daily backups monthly and yearly for posterity.
 
 The following is a *partial* script to assist with performing the backup. To complete the script, determine to best way to copy your files offsite. (I personally prefer using an S3 Client to a storage service in the cloud.)
 
@@ -98,7 +106,7 @@ DST_FNAME=yearly-$(date +%Y).tar.gz
 # !!!! TODO: Copy ${SRC_FPATH} as ${DST_FNAME} to an offsite location. !!!!
 ```
 
-Once you have the backup script up and running, you can automate it with cron or anacron.
+Once you have the backup scripts up and running, you can automate them with cron or anacron.
 
 <details>
 <summary>Installing Anacron</summary>
