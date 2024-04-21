@@ -1,14 +1,8 @@
 ---
 sidebar_position: 30
 title: Gitea Runner for CICD
-draft: true
+draft: false
 ---
-
-:::danger Incomplete
-
-This document is not yet written.
-
-:::
 
 ## Overview
 
