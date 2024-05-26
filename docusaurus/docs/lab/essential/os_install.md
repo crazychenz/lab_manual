@@ -86,6 +86,7 @@ In this page, I quickly rush through many of my conventions for setting up a VM 
     - Secure Store (6G) - for security service state.
     - Imports Store (8G) - for imported files.
     - Artifact Store (16G) - for repository
+    - Backup Store (??)
 
     ```
     sudo apt-get install lvm2
@@ -125,7 +126,9 @@ In this page, I quickly rush through many of my conventions for setting up a VM 
 
     - Naturally, emacs and nano are also options. What's important here is that you have an editor that works in the terminal window that you are comfortable with.
 
-14. Install Docker (for Online Dev and Docker Dev machines)
+14. Install HTTP CLI `curl`.
+
+15. Install Docker (for Online Dev and Docker Dev machines)
 
     - **Caution:** Do not install docker.io from the distribution's repo and do not install docker-compose from PyPi. These are deprecated or out-of-date versions. See the [Docker Ubuntu Install Documentation](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository) for more information.
 
@@ -148,15 +151,15 @@ In this page, I quickly rush through many of my conventions for setting up a VM 
         docker-buildx-plugin docker-compose-plugin
       ```
 
-15. Add yourself (`whoami`) to docker group and reset your terminal (e.g. logout and login.)
+16. Add yourself (`whoami`) to docker group and reset your terminal (e.g. logout and login.)
 
     - Note: VSCode has an existing bug that prevents groups updates in Remote-SSH without restarting the server. User's have [reported this issue](https://github.com/microsoft/vscode-remote-release/issues/5813), but due to the aggresive ticket pruning employed by the upstream VSCode team, the issue has gone unresolved. As the comments elude to, you can restart the VSCode server with: `ps uxa | grep .vscode-server | awk '{print $2}' | xargs kill -9`. If that doesn't work, restarting the entire kernel (i.e the system) should work. IMHO, VSCode is overly aggresive with a number of cached areas and this is yet another.
 
-16. Ensure git and python3 are installed: `sudo apt-get install git python3`
+17. Ensure git and python3 are installed: `sudo apt-get install git python3`
 
-17. There are a number of standard configurations that I use for my terminal configuration. This includes a lightweight script that will configure terminal colors and provide information about: date-time, path, user, host, git branch, and git branch state. It also sets history to append mode to capture all commands from all (bash) terminals. You can optionally add settings to have it output docker container and docker image information in the prompt.
+18. There are a number of standard configurations that I use for my terminal configuration. This includes a lightweight script that will configure terminal colors and provide information about: date-time, path, user, host, git branch, and git branch state. It also sets history to append mode to capture all commands from all (bash) terminals. You can optionally add settings to have it output docker container and docker image information in the prompt.
 
-18. Create a `bash-user-settings.sh` file in your home directory:
+19. Create a `bash-user-settings.sh` file in your home directory:
 
     ```sh
     # Configure aliases fpr the terminal colors.
@@ -248,9 +251,9 @@ In this page, I quickly rush through many of my conventions for setting up a VM 
     export PROMPT_COMMAND='history -a'
     ```
 
-19. To activate the user settings file, you'll want to `source ~/bash-user-settings.sh`. To have the settings applied to all new terminals, run: `echo source ~/bash-user-settings.sh >> ~/.bashrc`.
+20. To activate the user settings file, you'll want to `source ~/bash-user-settings.sh`. To have the settings applied to all new terminals, run: `echo source ~/bash-user-settings.sh >> ~/.bashrc`.
 
-20. Optionally configure a static IP on the primary interface.
+21. Optionally configure a static IP on the primary interface.
 
 ```interfaces
 auto lo
@@ -263,4 +266,4 @@ iface ens33 inet static
   gateway 192.168.1.254
 ```
 
-21. **OS Install Complete**
+22. **OS Install Complete**
