@@ -7,23 +7,15 @@ on:
 
 jobs:
   build-oci:
-    runs-on: [system]
+    runs-on: [nodejs,docker]
     steps:
 
     - name: Check out repository code
       uses: https://git.lab/actions/checkout@v4
-    
-    - name: Checkout lab_services-config for rollout script
-      run: |
-        NOKNOWNHOSTS="-o UserKnownHostsFile=/dev/null" \
-        NOHOSTCHECKS="-o StrictHostKeyChecking=no" \
-        GIT_SSH_COMMAND="ssh $NOKNOWNHOSTS $NOHOSTCHECKS" \
-        git clone --depth 1 git@git.lab:lab/lab_services-config.git \
-          --branch deploy --single-branch lab_services-config
 
-    - name: Dump environment variables
-      run: env
-    
+    #- name: Dump environment variables
+    #  run: env
+
     - name: Login to Gitea Docker Registry
       uses: https://git.lab/docker/login-action@v3
       with:
@@ -31,13 +23,9 @@ jobs:
         username: ${{ secrets.GITEADOCKER_USERNAME }}
         password: ${{ secrets.GITEADOCKER_TOKEN }}
 
-    - name: Build system_manual image
-      run: ./do cicd
-    
-    # Assumed that /opt/services is pre-created and owned by cicd.
-    # Assumed that cicd has run docker login on destination machine.
-    - name: Deploy system_manual image
-      run: |
-        ls && \
-        ssh -p 2222 -o StrictHostKeyChecking=no cicd@www.lab \
-          /bin/sh < lab_services-config/rollout.sh
+    #- name: Build & push manual image
+    #  run: ./do cicd
+
+    # TODO: Tell flux to do its thing
+    #- name: Deploy system_manual image
+    #  run: 
